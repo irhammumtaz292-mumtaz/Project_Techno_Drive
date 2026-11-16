@@ -1,0 +1,42 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h3 class="fw-bold">Edit Alat Uji</h3>
+            <p class="text-muted">Perbarui data perangkat ukur.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <a href="{{ route('equipments.index') }}" class="btn btn-secondary">Kembali</a>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm col-md-8">
+        <div class="card-body p-4">
+            <form action="{{ route('equipments.update', $equipment->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nama Alat Uji</label>
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $equipment->name) }}" required>
+                    @error('name') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nomor Seri / Serial Number</label>
+                    <input type="text" name="serial_number" class="form-control @error('serial_number') is-invalid @enderror" value="{{ old('serial_number', $equipment->serial_number) }}" required>
+                    @error('serial_number') <div class="invalid-feedback">{{ $message }}</div> @enderror
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Status</label>
+                    <select name="status" class="form-select" required>
+                        <option value="Tersedia" {{ $equipment->status == 'Tersedia' ? 'selected' : '' }}>Tersedia</option>
+                        <option value="Sedang Dipinjam" {{ $equipment->status == 'Sedang Dipinjam' ? 'selected' : '' }}>Sedang Dipinjam</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Perbarui Data</button>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
