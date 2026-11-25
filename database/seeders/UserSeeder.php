@@ -21,13 +21,13 @@ class UserSeeder extends Seeder
 
         \App\Models\User::create([
             'name' => 'Director',
-            'email' => 'director@technodrive.com',
+            'email' => 'directur@technodrive.com',
             'password' => bcrypt('password123'),
             'role' => 'Director',
         ]);
 
         \App\Models\User::create([
-            'name' => 'Teknisi Handal',
+            'name' => 'Teknisi',
             'email' => 'staff@technodrive.com',
             'password' => bcrypt('password123'),
             'role' => 'Staff',

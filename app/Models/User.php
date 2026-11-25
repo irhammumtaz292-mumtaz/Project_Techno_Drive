@@ -59,4 +59,45 @@ class User extends Authenticatable
     {
         return $this->hasMany(FinalReport::class);
     }
+
+    /**
+     * Memeriksa apakah user memiliki salah satu dari role yang ditentukan (case-insensitive & support sinonim)
+     */
+    public function hasRole(...$roles): bool
+    {
+        $myRole = strtolower(trim($this->role ?? ''));
+        $myAliases = [$myRole];
+        if (in_array($myRole, ['director', 'direktur'])) {
+            $myAliases = ['director', 'direktur'];
+        } elseif (in_array($myRole, ['logistics', 'logistik'])) {
+            $myAliases = ['logistics', 'logistik'];
+        } elseif (in_array($myRole, ['finance', 'keuangan'])) {
+            $myAliases = ['finance', 'keuangan'];
+        }
+
+        $targets = [];
+        foreach ($roles as $r) {
+            foreach (explode(',', $r) as $sub) {
+                $subNorm = strtolower(trim($sub));
+                $targets[] = $subNorm;
+                if ($subNorm === 'director' || $subNorm === 'direktur') {
+                    $targets[] = 'director';
+                    $targets[] = 'direktur';
+                } elseif ($subNorm === 'logistics' || $subNorm === 'logistik') {
+                    $targets[] = 'logistics';
+                    $targets[] = 'logistik';
+                } elseif ($subNorm === 'finance' || $subNorm === 'keuangan') {
+                    $targets[] = 'finance';
+                    $targets[] = 'keuangan';
+                }
+            }
+        }
+
+        foreach ($myAliases as $a) {
+            if (in_array($a, $targets, true)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

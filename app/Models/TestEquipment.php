@@ -9,12 +9,13 @@ class TestEquipment extends Model
 {
     use HasFactory;
 
-    // TAMBAHKAN BARIS INI UNTUK MENUNJUK NAMA TABEL YANG BENAR
     protected $table = 'test_equipments';
 
     protected $fillable = [
         'name',
+        'brand_model',
+        'unit_count',
         'serial_number',
-        'status'
+        'status',
     ];
 }

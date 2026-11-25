@@ -16,7 +16,7 @@ return new class extends Migration
         $table->string('name');
         $table->string('serial_number')->unique();
         // Status diperluas sesuai masukan mitra
-        $table->enum('status', ['Tersedia', 'Sedang dipakai', 'Perbaikan', 'Kalibrasi'])->default('Tersedia');
+        $table->enum('status', ['Tersedia', 'Sedang Dipinjam', 'Sedang dipakai', 'Perbaikan', 'Kalibrasi'])->default('Tersedia');
         $table->date('calibration_expiry')->nullable(); // Masa berlaku kalibrasi
         $table->timestamps();
 });

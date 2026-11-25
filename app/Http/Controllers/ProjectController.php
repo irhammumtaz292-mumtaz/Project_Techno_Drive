@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\TestEquipment;
 use App\Models\PurchaseOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Services\LetterNumberService;
 use Carbon\Carbon;
@@ -58,11 +59,14 @@ class ProjectController extends Controller
             'nilai_pekerjaan'         => 'required|numeric|min:0',
             // Penugasan & Alat
             'staffs'                  => 'required|array|min:1',
-            'equipments'              => 'nullable|array',
+            'equipments'              => 'required|array|min:1',
+        ], [
+            'equipments.required' => 'Minimal pilih 1 alat uji yang digunakan untuk proyek ini.',
+            'equipments.min'      => 'Minimal pilih 1 alat uji yang digunakan untuk proyek ini.',
         ]);
 
         // 2. VALIDASI KALIBRASI & BENTROK JADWAL ALAT UJI
-        if ($request->has('equipments')) {
+        if ($request->has('equipments') && is_array($request->equipments)) {
             foreach ($request->equipments as $eqId) {
                 $equipment = TestEquipment::find($eqId);
 
@@ -118,11 +122,9 @@ class ProjectController extends Controller
             // 6. Hubungkan Staf yang ditugaskan (tabel pivot project_user)
             $project->staff()->attach($request->staffs);
 
-            // 7. Hubungkan Alat Uji jika dipilih & ubah status alat
-            if ($request->has('equipments')) {
-                $project->equipments()->attach($request->equipments);
-                TestEquipment::whereIn('id', $request->equipments)->update(['status' => 'Sedang dipakai']);
-            }
+            // 7. Hubungkan Alat Uji (wajib) & ubah status alat
+            $project->equipments()->attach($request->equipments);
+            TestEquipment::whereIn('id', $request->equipments)->update(['status' => 'Sedang dipakai']);
 
             DB::commit();
             return redirect()->route('projects.show', $project->id)->with('success', 'Proyek berhasil diregistrasikan dengan Nomor PO Otomatis: ' . $noPoOtomatis . '. Anda dapat mengunduh dokumen PO (PDF) di halaman ini.');
@@ -140,9 +142,19 @@ class ProjectController extends Controller
         return view('projects.show', compact('project'));
     }
 
-    // Memperbarui status pembayaran oleh Supervisor (Dari Waiting Payment ke Paid)
+    // Halaman Verifikasi Pembayaran (khusus Finance)
+    public function paymentIndex()
+    {
+        abort_unless(Auth::user()->role === 'Finance', 403, 'Akses ditolak.');
+        $projects = Project::with(['customer', 'po'])->latest()->paginate(15);
+        return view('projects.payment_index', compact('projects'));
+    }
+
+    // Memperbarui status pembayaran oleh Finance (Waiting Payment <-> Paid)
     public function updatePaymentStatus(Request $request, Project $project)
     {
+        abort_unless(Auth::user()->role === 'Finance', 403, 'Akses ditolak. Hanya Finance yang dapat mengubah status pembayaran.');
+
         $request->validate([
             'status_pembayaran' => 'required|in:Waiting Payment,Paid'
         ]);
@@ -151,7 +163,7 @@ class ProjectController extends Controller
             'status_pembayaran' => $request->status_pembayaran
         ]);
 
-        return back()->with('success', 'Status pembayaran berhasil diperbarui.');
+        return back()->with('success', 'Status pembayaran proyek "' . $project->name . '" berhasil diubah menjadi ' . $request->status_pembayaran . '.');
     }
 
     // Download / Export Purchase Order (PO) dalam format PDF sesuai template

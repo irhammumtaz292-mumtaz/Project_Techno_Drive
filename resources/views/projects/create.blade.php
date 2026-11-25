@@ -354,17 +354,18 @@
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-header py-3" style="background: linear-gradient(135deg, #1a2a3a, #2d4057); border-bottom: 3px solid #fd5f00;">
                         <h6 class="mb-0 fw-bold text-white">
-                            <i class="fa fa-wrench me-2" style="color: #fd5f00;"></i>E. Alat Uji Yang Digunakan
+                            <i class="fa fa-wrench me-2" style="color: #fd5f00;"></i>E. Alat Uji Yang Digunakan <span class="text-danger">*</span>
                         </h6>
                     </div>
                     <div class="card-body">
                         <p class="text-muted small mb-2">
                             <i class="fa fa-info-circle me-1"></i>
-                            Hanya alat berstatus <strong>Tersedia</strong> yang ditampilkan. Sistem akan memvalidasi kalibrasi & jadwal bentrok secara otomatis.
+                            Wajib pilih minimal 1 alat uji. Hanya alat berstatus <strong>Tersedia</strong> yang ditampilkan. Sistem akan memvalidasi kalibrasi & jadwal bentrok secara otomatis.
                         </p>
                         <select name="equipments[]"
                                 class="form-select select2 @error('equipments') is-invalid @enderror"
                                 multiple="multiple"
+                                required
                                 data-placeholder="Cari nama atau nomor seri alat...">
                             @forelse($equipments as $eq)
                                 <option value="{{ $eq->id }}">

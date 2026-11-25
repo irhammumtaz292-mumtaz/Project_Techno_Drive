@@ -4,7 +4,6 @@
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-md-6">
-            <h3 class="fw-bold">Tambah End User</h3>
             <p class="text-muted">Masukkan informasi lokasi pelaksanaan proyek.</p>
         </div>
         <div class="col-md-6 text-md-end">

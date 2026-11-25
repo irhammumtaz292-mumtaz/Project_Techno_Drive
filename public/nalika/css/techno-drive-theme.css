@@ -1,0 +1,1035 @@
+/* ==========================================================================
+   PT TECHNO DRIVE ENGINEERING - BRAND THEME OVERRIDES
+   Color Palette: Oren (#FF5500), Hitam (#111111), Putih (#FFFFFF / #F8F9FA)
+   Dominant: PUTIH, Sidebar: HITAM, Accent: OREN
+   ========================================================================== */
+
+:root {
+  /* Dominant White Surface Tokens */
+  --nk-bg-body:        #F8F9FA;
+  --nk-bg-surface:     #FFFFFF;
+  --nk-bg-elevated:    #FFFFFF;
+  --nk-bg-inset:       #F3F4F6;
+
+  /* Theme Accents */
+  --nk-accent-brand:   #FF5500;
+  --nk-accent-orange:  #FF5500;
+  --nk-accent-teal:    #10B981;
+  --nk-accent-blue:    #3B82F6;
+  --nk-accent-purple:  #8B5CF6;
+  --nk-accent-red:     #EF4444;
+
+  /* Typography Colors */
+  --nk-text-primary:   #111111;
+  --nk-text-secondary: #4B5563;
+  --nk-text-muted:     #6B7280;
+  --nk-text-inverse:   #FFFFFF;
+
+  /* Borders */
+  --nk-border-default: #E5E7EB;
+  --nk-border-subtle:  #F3F4F6;
+
+  /* Status Colors */
+  --nk-success:        #10B981;
+  --nk-info:           #3B82F6;
+  --nk-warning:        #F59E0B;
+  --nk-danger:         #EF4444;
+
+  /* Brand Variables */
+  --accent-orange:     #FF5500;
+  --carbon:            #111111;
+  --border-hairline:   #E5E7EB;
+  --bg-white:          #FFFFFF;
+  --bg-offwhite:       #F8F9FA;
+  --sidebar-black:     #111111;
+  --sidebar-hover:     #1C1C1C;
+  --sidebar-active:    #1E1E1E;
+}
+
+/* ─── Global Reset & Typography (2-Font System) ──────────────────────────
+   Heading Font : 'Plus Jakarta Sans' — logo, judul halaman, nama profil
+   Body Font    : 'Inter'            — semua teks UI, tombol, menu, tabel
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* Body / UI default → Inter */
+body,
+p, span, a, button, input, select, textarea,
+table, th, td, label,
+.sidebar-nav, .metismenu, .metismenu li, .metismenu li a,
+.mini-click-non, .mini-sub-pro,
+.form-control, .btn, .badge,
+.breadcome-heading, .breadcome-list,
+.nk-search-input, .nk-user-name,
+.dropdown-menu, .dropdown-item,
+nav, .header-top-area {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Heading → Plus Jakarta Sans */
+h1, h2, h3, h4, h5, h6,
+.main-logo, .role-badge,
+.nk-auth-logo, .nk-auth-subtitle,
+.card-title, .page-title,
+.nalika-profile .profile-dtl h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+body {
+  background-color: #F8F9FA !important;
+  color: #111111 !important;
+}
+
+.font-mono-tech {
+  font-family: 'Inter', sans-serif !important;
+  letter-spacing: 0.04em;
+}
+
+/* ─── Layout Dimensions ─────────────────────────────────────────────────── */
+.left-sidebar-pro {
+  width: 240px !important;
+  position: relative !important;
+  z-index: 1000 !important;
+}
+
+#sidebar {
+  width: 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
+  background: #111111 !important;
+  color: #FFFFFF !important;
+  position: fixed !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  height: 100vh !important;
+  z-index: 1000 !important;
+  border-right: 1px solid #1F1F1F !important;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #333333 transparent !important;
+  transition: all 0.3s ease !important;
+}
+
+.left-custom-menu-adp-wrap {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.all-content-wrapper {
+  margin-left: 240px !important;
+  background-color: #F8F9FA !important;
+  min-height: 100vh !important;
+  padding-top: 60px !important; /* Space for fixed header */
+  display: flex !important;
+  flex-direction: column !important;
+  transition: margin-left 0.3s ease !important;
+}
+
+/* Collapsed Mini Sidebar */
+#sidebar.active {
+  width: 80px !important;
+  min-width: 80px !important;
+  max-width: 80px !important;
+  text-align: center !important;
+}
+
+/* ── Collapsed: Profile Section ─────────────────────────────────────────── */
+/* Sembunyikan nama user & badge role saat sidebar dikecilkan */
+#sidebar.active .nalika-profile .profile-dtl h2,
+#sidebar.active .nalika-profile .profile-dtl > div {
+  display: none !important;
+}
+
+/* Perkecil padding profil & avatar, center-kan avatar */
+#sidebar.active .nalika-profile {
+  padding: 12px 0 !important;
+}
+
+#sidebar.active .nalika-profile .profile-dtl img {
+  width: 36px !important;
+  height: 36px !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+/* Sembunyikan logo teks, tampilkan hanya "TD" saat collapsed */
+#sidebar.active .sidebar-header .main-logo {
+  display: none !important;
+}
+
+#sidebar.active .sidebar-header {
+  justify-content: center !important;
+  padding: 16px 10px !important;
+}
+
+/* Collapsed: Center menu icons, hide border-left indicator */
+#sidebar.active .sidebar-nav .metismenu > li > a {
+  justify-content: center !important;
+  padding: 14px 0 !important;
+  border-left: 0 !important;
+}
+
+#sidebar.active .sidebar-nav .metismenu > li > a i {
+  margin-right: 0 !important;
+  font-size: 20px !important;
+}
+
+/* Collapsed: active state left border → bottom indicator instead */
+#sidebar.active .sidebar-nav .metismenu > li.active > a,
+#sidebar.active .sidebar-nav .metismenu > li.mm-active > a {
+  border-left: 0 !important;
+  border-bottom: 2px solid #FF5500 !important;
+}
+
+.mini-navbar .all-content-wrapper {
+  margin-left: 80px !important;
+}
+
+.mini-navbar .header-top-area {
+  left: 80px !important;
+}
+
+/* ─── SIDEBAR HITAM ─────────────────────────────────────────────────────── */
+#sidebar .sidebar-header {
+  background: #111111 !important;
+  border-bottom: 1px solid #1F1F1F !important;
+  padding: 16px 20px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  height: 60px !important;
+}
+
+#sidebar .sidebar-header a {
+  text-decoration: none !important;
+}
+
+.nalika-profile {
+  background: #161616 !important;
+  border-bottom: 1px solid #1F1F1F !important;
+  padding: 18px 16px !important;
+  text-align: center !important;
+}
+
+.nalika-profile .profile-dtl img {
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 50% !important;
+  border: 2px solid #FF5500 !important;
+  padding: 2px !important;
+  background: #111111 !important;
+}
+
+.nalika-profile .profile-dtl h2 {
+  font-size: 14px !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  margin: 10px 0 4px 0 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.role-badge {
+  display: inline-block !important;
+  background: #FF5500 !important;
+  color: #FFFFFF !important;
+  font-size: 10px !important;
+  padding: 2px 8px !important;
+  border-radius: 2px !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 700 !important;
+}
+
+.left-custom-menu-adp-wrap,
+.sidebar-nav,
+.sidebar-nav ul,
+.sidebar-nav .metismenu {
+  background: #111111 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+
+/* Sidebar Menu Items */
+.sidebar-nav .metismenu > li {
+  position: relative !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+}
+
+.sidebar-nav .metismenu > li > a {
+  display: flex !important;
+  align-items: center !important;
+  padding: 13px 20px !important;
+  color: #FFFFFF !important;          /* ← PUTIH: teks menu utama */
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  font-family: 'Inter', sans-serif !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  border-left: 4px solid transparent !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+/* Pastikan span dan teks di dalam menu sidebar berwarna putih */
+.sidebar-nav .metismenu > li > a span,
+.sidebar-nav .metismenu > li > a .mini-click-non {
+  color: #FFFFFF !important;
+}
+
+.sidebar-nav .metismenu > li > a * {
+  pointer-events: none !important;
+}
+
+.sidebar-nav .metismenu > li > a i {
+  font-size: 17px !important;
+  margin-right: 14px !important;
+  color: #CCCCCC !important;          /* ← abu-abu terang, selaras putih */
+  transition: color 0.2s ease !important;
+  width: 20px !important;
+  text-align: center !important;
+}
+
+.sidebar-nav .metismenu > li > a:hover {
+  background: #1C1C1C !important;
+  color: #FFFFFF !important;
+}
+
+.sidebar-nav .metismenu > li > a:hover i {
+  color: #FF5500 !important;
+}
+
+/* Active State */
+.sidebar-nav .metismenu > li.active > a,
+.sidebar-nav .metismenu > li.mm-active > a {
+  background: #1C1C1C !important;
+  color: #FFFFFF !important;
+  border-left: 4px solid #FF5500 !important;
+  font-weight: 600 !important;
+}
+
+.sidebar-nav .metismenu > li.active > a i,
+.sidebar-nav .metismenu > li.mm-active > a i {
+  color: #FF5500 !important;
+}
+
+/* Arrow indicator on .has-arrow */
+.metismenu .has-arrow {
+  position: relative !important;
+}
+
+.metismenu .has-arrow:after {
+  position: absolute !important;
+  content: "" !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-width: 2px 2px 0 0 !important;
+  border-style: solid !important;
+  border-color: #CCCCCC !important;
+  right: 20px !important;
+  top: 50% !important;
+  transform: translateY(-50%) rotate(45deg) !important;
+  transition: transform 0.25s ease, border-color 0.2s ease !important;
+  pointer-events: none !important;
+}
+
+.metismenu .has-arrow:hover:after {
+  border-color: #FF5500 !important;
+}
+
+.metismenu li.active > .has-arrow:after,
+.metismenu .has-arrow[aria-expanded="true"]:after {
+  transform: translateY(-50%) rotate(135deg) !important;
+  border-color: #FF5500 !important;
+}
+
+/* Submenu Dropdown */
+.metismenu .submenu-angle {
+  background: #090909 !important;
+  padding: 6px 0 !important;
+  display: none;
+  list-style: none !important;
+  margin: 0 !important;
+}
+
+.metismenu li.active > .submenu-angle {
+  display: block !important;
+}
+
+.metismenu .submenu-angle li a {
+  display: flex !important;
+  align-items: center !important;
+  padding: 10px 20px 10px 54px !important;
+  color: #E0E0E0 !important;          /* ← putih lembut untuk submenu */
+  font-size: 12.5px !important;
+  font-family: 'Inter', sans-serif !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  position: relative !important;
+  z-index: 5 !important;
+}
+
+.metismenu .submenu-angle li a * {
+  pointer-events: none !important;
+}
+
+.metismenu .submenu-angle li a:hover,
+.metismenu .submenu-angle li.active a {
+  color: #FF5500 !important;
+  background: #141414 !important;
+}
+
+/* ─── HEADER TOP BAR (PUTIH) ────────────────────────────────────────────── */
+.header-top-area {
+  position: fixed !important;
+  top: 0 !important;
+  left: 240px !important;
+  right: 0 !important;
+  height: 60px !important;
+  background: #FFFFFF !important;
+  z-index: 999 !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  transition: left 0.3s ease !important;
+}
+
+.nk-header-bar {
+  display: flex !important;
+  align-items: center !important;
+  height: 60px !important;
+  padding: 0 24px !important;
+}
+
+/* Sidebar Toggle Button */
+#sidebarCollapse {
+  background: transparent !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 4px !important;
+  color: #111111 !important;
+  font-size: 18px !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+#sidebarCollapse:hover {
+  background: #F3F4F6 !important;
+  color: #FF5500 !important;
+  border-color: #FF5500 !important;
+}
+
+/* Search input */
+.nk-header-search {
+  position: relative !important;
+  width: 300px !important;
+}
+
+.nk-search-input {
+  width: 100% !important;
+  height: 36px !important;
+  padding: 6px 14px 6px 36px !important;
+  background: #F3F4F6 !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 4px !important;
+  color: #111111 !important;
+  font-size: 13px !important;
+  transition: all 0.2s ease !important;
+}
+
+.nk-search-input:focus {
+  background: #FFFFFF !important;
+  border-color: #FF5500 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(255, 85, 0, 0.1) !important;
+}
+
+.nk-search-icon {
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  color: #9CA3AF !important;
+  font-size: 14px !important;
+}
+
+/* Header Right Icons */
+.nk-header-right {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+}
+
+/* Tombol Notifikasi (Lonceng) */
+.nk-header-icon {
+  color: #374151 !important;
+  font-size: 18px !important;
+  width: 38px !important;
+  height: 38px !important;
+  padding: 0 !important;
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
+  border-radius: 50% !important;
+  background: #F3F4F6 !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.nk-header-icon:hover {
+  color: #FF5500 !important;
+  background: #FFEFE7 !important;
+}
+
+.nk-badge {
+  position: absolute !important;
+  top: 7px !important;
+  right: 7px !important;
+  width: 8px !important;
+  height: 8px !important;
+  background: #FF5500 !important;
+  border-radius: 50% !important;
+  border: 2px solid #FFFFFF !important;
+}
+
+/* Tombol Profil Pengguna / Role (Terpisah Rapi dari Notifikasi) */
+.nk-header-user-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 4px 12px 4px 6px !important;
+  border-radius: 24px !important;
+  border: 1px solid #E5E7EB !important;
+  background: #FFFFFF !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.nk-header-user-btn:hover {
+  background: #F8F9FA !important;
+  border-color: #FF5500 !important;
+}
+
+.nk-header-user-btn img {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  flex-shrink: 0 !important;
+}
+
+.nk-user-name {
+  color: #111111 !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  margin: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* Dropdown Menus in Header */
+.header-top-area .dropdown-menu {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+  border-radius: 4px !important;
+  padding: 8px 0 !important;
+  min-width: 220px !important;
+}
+
+.header-top-area .dropdown-menu .dropdown-item {
+  color: #333333 !important;
+  font-size: 13px !important;
+  padding: 8px 16px !important;
+  transition: all 0.15s ease !important;
+}
+
+.header-top-area .dropdown-menu .dropdown-item:hover {
+  background: #FFF5F0 !important;
+  color: #FF5500 !important;
+}
+
+.header-top-area .nk-dd-title {
+  color: #111111 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  padding: 10px 16px !important;
+  border-bottom: 1px solid #E5E7EB !important;
+  margin: 0 !important;
+}
+
+.header-top-area .nk-dd-item {
+  display: flex !important;
+  padding: 10px 16px !important;
+  border-bottom: 1px solid #F3F4F6 !important;
+  text-decoration: none !important;
+  color: #333333 !important;
+  transition: background 0.15s ease !important;
+}
+
+.header-top-area .nk-dd-item:hover {
+  background: #F9FAFB !important;
+}
+
+.header-top-area .nk-dd-item h6 {
+  color: #111111 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  margin-bottom: 2px !important;
+}
+
+.header-top-area .nk-dd-item p {
+  color: #6B7280 !important;
+  font-size: 11px !important;
+  margin: 0 !important;
+}
+
+.header-top-area .nk-dd-footer a {
+  display: block !important;
+  text-align: center !important;
+  padding: 10px !important;
+  color: #FF5500 !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+/* ─── BREADCRUMB AREA ───────────────────────────────────────────────────── */
+.breadcome-area {
+  padding: 20px 0 0 0 !important;
+}
+
+.breadcome-list {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 4px !important;
+  padding: 18px 24px !important;
+  margin: 0 0 24px 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+.breadcomb-wp {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+
+.breadcomb-icon i {
+  font-size: 24px !important;
+  color: #FF5500 !important;
+  background: #FFF5F0 !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 4px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.breadcomb-ctn h2 {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #111111 !important;
+  margin: 0 0 2px 0 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.breadcomb-ctn p {
+  font-size: 12px !important;
+  color: #6B7280 !important;
+  margin: 0 !important;
+}
+
+/* ─── NALIKA STAT CARDS (DOMINAN PUTIH) ─────────────────────────────────── */
+.section-admin {
+  margin-bottom: 24px !important;
+}
+
+.admin-content.analysis-progrebar-ctn {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 4px !important;
+  padding: 20px 22px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  text-align: left !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.admin-content.analysis-progrebar-ctn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07) !important;
+}
+
+.td-section-label {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: #FF5500 !important;
+  margin-bottom: 8px !important;
+}
+
+.admin-content h2 {
+  color: #111111 !important;
+  font-size: 26px !important;
+  font-weight: 800 !important;
+  font-family: 'Inter', sans-serif !important;
+  margin: 0 !important;
+}
+
+.progress.progress-mini {
+  background: #F3F4F6 !important;
+  height: 5px !important;
+  border-radius: 10px !important;
+  margin: 10px 0 6px 0 !important;
+  overflow: hidden !important;
+}
+
+.progress-bar.bg-green {
+  background-color: #FF5500 !important;
+}
+
+.progress-bar.bg-red {
+  background-color: #EF4444 !important;
+}
+
+.progress-bar.bg-blue {
+  background-color: #3B82F6 !important;
+}
+
+.progress-bar.bg-purple {
+  background-color: #8B5CF6 !important;
+}
+
+.badge.bg-green {
+  background-color: #FF5500 !important;
+  color: #FFFFFF !important;
+}
+
+.badge.bg-red {
+  background-color: #EF4444 !important;
+  color: #FFFFFF !important;
+}
+
+.badge.bg-blue {
+  background-color: #3B82F6 !important;
+  color: #FFFFFF !important;
+}
+
+.badge.bg-purple {
+  background-color: #8B5CF6 !important;
+  color: #FFFFFF !important;
+}
+
+/* ─── NALIKA TABLE STYLING (.product-status-wrap) ───────────────────────── */
+.product-status-wrap {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 4px !important;
+  padding: 24px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  position: relative !important;
+  margin-bottom: 24px !important;
+}
+
+.product-status-wrap h4 {
+  color: #111111 !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  margin: 0 0 16px 0 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: uppercase !important;
+}
+
+/* ── Tombol Oren Brand & Action Buttons (Teks Selalu Putih Penuh) ───── */
+.product-status-wrap .add-product a,
+.product-status-wrap .add-product a span,
+.product-status-wrap .add-product a i,
+.btn-td-primary,
+.btn-td-primary span,
+.btn-td-primary i,
+.btn-primary,
+.btn-primary span,
+.btn-primary i,
+.btn-nk-primary,
+.btn-nk-primary span,
+.btn-nk-primary i {
+  color: #FFFFFF !important;
+}
+
+.product-status-wrap .add-product a,
+.btn-td-primary,
+.btn-primary {
+  background: #FF5500 !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  padding: 8px 18px !important;
+  border-radius: 4px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  border: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.product-status-wrap .add-product a:hover,
+.product-status-wrap .add-product a:hover span,
+.product-status-wrap .add-product a:hover i,
+.btn-td-primary:hover,
+.btn-td-primary:hover span,
+.btn-td-primary:hover i,
+.btn-primary:hover,
+.btn-primary:hover span,
+.btn-primary:hover i {
+  background: #111111 !important;
+  color: #FFFFFF !important;
+}
+
+.btn-td-dark {
+  background: #111111 !important;
+  color: #FFFFFF !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 5px 12px !important;
+  border-radius: 3px !important;
+  border: none !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-td-dark:hover {
+  background: #FF5500 !important;
+  color: #FFFFFF !important;
+}
+
+/* Table Architecture */
+.product-status-wrap table,
+table.table-td-nalika {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+.product-status-wrap table th,
+table.table-td-nalika th {
+  background: #111111 !important;
+  color: #FFFFFF !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 12px 14px !important;
+  border: none !important;
+  vertical-align: middle !important;
+}
+
+.product-status-wrap table td,
+table.table-td-nalika td {
+  background: #FFFFFF !important;
+  color: #1F2937 !important;
+  font-size: 13px !important;
+  padding: 13px 14px !important;
+  border-top: 1px solid #F1F1F0 !important;
+  border-bottom: none !important;
+  vertical-align: middle !important;
+  transition: background 0.15s ease !important;
+}
+
+.product-status-wrap table tr:hover td,
+table.table-td-nalika tr:hover td {
+  background: #F8F9FA !important;
+}
+
+/* Status Badges */
+.product-status-wrap .pd-setting,
+.badge-status-done {
+  background: #10B981 !important;
+  color: #FFFFFF !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  padding: 3px 9px !important;
+  border-radius: 3px !important;
+  border: none !important;
+  display: inline-block !important;
+  font-family: 'Inter', sans-serif !important;
+  letter-spacing: 0.03em !important;
+}
+
+.product-status-wrap .ps-setting,
+.badge-status-pending {
+  background: #F59E0B !important;
+  color: #FFFFFF !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  padding: 3px 9px !important;
+  border-radius: 3px !important;
+  border: none !important;
+  display: inline-block !important;
+  font-family: 'Inter', sans-serif !important;
+  letter-spacing: 0.03em !important;
+}
+
+.product-status-wrap .ds-setting,
+.badge-status-cancel {
+  background: #EF4444 !important;
+  color: #FFFFFF !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  padding: 3px 9px !important;
+  border-radius: 3px !important;
+  border: none !important;
+  display: inline-block !important;
+  font-family: 'Inter', sans-serif !important;
+  letter-spacing: 0.03em !important;
+}
+
+.badge-status-active {
+  background: #FF5500 !important;
+  color: #FFFFFF !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  padding: 3px 9px !important;
+  border-radius: 3px !important;
+  border: none !important;
+  display: inline-block !important;
+  font-family: 'Inter', sans-serif !important;
+  letter-spacing: 0.03em !important;
+}
+
+/* Action Buttons inside Table */
+.pd-setting-ed,
+.btn-action-view {
+  background: #111111 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  border-radius: 3px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.pd-setting-ed:hover,
+.btn-action-view:hover {
+  background: #FF5500 !important;
+  color: #FFFFFF !important;
+}
+
+.btn-action-po {
+  background: #EF4444 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  border-radius: 3px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  transition: all 0.2s ease !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.btn-action-po:hover {
+  background: #111111 !important;
+  color: #FFFFFF !important;
+}
+
+/* ─── WHITE BOX CONTAINERS (DOMINAN PUTIH) ──────────────────────────────── */
+.white-box {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  border-radius: 4px !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.white-box .box-title {
+  color: #111111 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  margin-bottom: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* Footer Copyright (Sticky di paling bawah halaman/menu) */
+.footer-copyright-area {
+  background: #FFFFFF !important;
+  border-top: 1px solid #E5E7EB !important;
+  padding: 16px 0 !important;
+  margin-top: auto !important;
+}
+
+.footer-copy-right p {
+  color: #6B7280 !important;
+  font-size: 12px !important;
+  margin: 0 !important;
+}
+
+.footer-copy-right p a {
+  color: #FF5500 !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+}
+
+/* ─── RESPONSIVE BREAKPOINTS (<992px) ──────────────────────────────────── */
+@media (max-width: 991.98px) {
+  .left-sidebar-pro {
+    display: block !important;
+  }
+
+  #sidebar {
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease !important;
+  }
+
+  body.sidebar-mobile-open #sidebar {
+    transform: translateX(0) !important;
+  }
+
+  .all-content-wrapper {
+    margin-left: 0 !important;
+  }
+
+  .header-top-area {
+    left: 0 !important;
+  }
+
+  .nk-header-search {
+    width: 180px !important;
+  }
+
+  .product-status-wrap .add-product a {
+    position: static !important;
+    float: none !important;
+    margin-bottom: 12px !important;
+  }
+
+  .nk-header-right {
+    gap: 12px !important;
+  }
+}
