@@ -371,7 +371,7 @@
 
                     <hr style="border-color: #E5E7EB;">
 
-                    @if(Auth::user()->role == 'Finance' && $project->status_pembayaran == 'Waiting Payment')
+                    @if(Auth::user()->hasRole('Supervisor', 'Finance') && $project->status_pembayaran == 'Waiting Payment')
                         <div class="alert alert-warning py-2 px-3 small mb-3 border-0 border-start border-3 border-warning" style="background:#FFFBEB; font-size:12px;">
                             <i class="bi bi-info-circle me-1"></i>
                             Proyek belum tampil di dashboard teknisi sampai pembayaran diverifikasi.
@@ -385,7 +385,7 @@
                                 <span>Tandai Sudah Dibayar (Paid)</span>
                             </button>
                         </form>
-                    @elseif(Auth::user()->role == 'Finance' && $project->status_pembayaran == 'Paid')
+                    @elseif(Auth::user()->hasRole('Supervisor', 'Finance') && $project->status_pembayaran == 'Paid')
                         <div class="alert alert-info py-2 px-3 small mb-3 border-0 border-start border-3 border-info" style="background:#EFF6FF; color:#1E40AF; font-size:12px;">
                             <i class="bi bi-check-circle-fill me-1" style="color:#3B82F6;"></i>Pembayaran telah diverifikasi (Paid).
                         </div>
@@ -415,13 +415,25 @@
                     <h4>SPK &amp; Final Report</h4>
 
                     <div class="mb-3">
-                        <label class="font-mono-tech text-muted d-block mb-1" style="font-size:11px;">SURAT PERINTAH KERJA (SPK)</label>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label class="font-mono-tech text-muted mb-0" style="font-size:11px;">SURAT PERINTAH KERJA (SPK)</label>
+                            @can('create', \App\Models\Spk::class)
+                                @php
+                                    $hasActiveSpk = $project->spks && $project->spks->where('status_verifikasi', '!=', 'Dibatalkan')->isNotEmpty();
+                                @endphp
+                                @if(!$hasActiveSpk)
+                                    <a href="{{ route('spks.create', ['project_id' => $project->id]) }}" class="btn btn-sm btn-outline-dark py-0 px-2" style="font-size:10.5px;">
+                                        <i class="bi bi-plus-lg"></i> Ajukan SPK
+                                    </a>
+                                @endif
+                            @endcan
+                        </div>
                         @if($project->spks && $project->spks->count() > 0)
                             @foreach($project->spks as $spk)
-                                <div class="p-2 border rounded mb-2 bg-light d-flex justify-content-between align-items-center">
-                                    <div class="fw-bold font-mono-tech" style="font-size:12px;">{{ $spk->no_spk }}</div>
+                                <a href="{{ route('spks.show', $spk->id) }}" class="p-2 border rounded mb-2 bg-light d-flex justify-content-between align-items-center text-decoration-none">
+                                    <div class="fw-bold font-mono-tech text-dark" style="font-size:12px;">{{ $spk->no_spk }}</div>
                                     <span class="badge bg-secondary font-mono-tech" style="font-size:10px;">{{ $spk->status_verifikasi }}</span>
-                                </div>
+                                </a>
                             @endforeach
                         @else
                             <small class="text-muted font-mono-tech" style="font-size:11.5px;">Belum ada SPK diajukan.</small>

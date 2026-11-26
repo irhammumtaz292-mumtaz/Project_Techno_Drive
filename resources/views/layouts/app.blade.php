@@ -124,6 +124,16 @@
                         </li>
                         @endif
 
+                        @if(in_array($userRoleNorm, ['supervisor', 'logistics', 'logistik', 'finance', 'keuangan', 'director', 'direktur']))
+                        <!-- Verifikasi & Manajemen SPK -->
+                        <li class="{{ request()->routeIs('spks.*') ? 'active mm-active' : '' }}">
+                            <a href="{{ route('spks.index') }}">
+                                <i class="bi bi-file-earmark-check"></i>
+                                <span class="mini-click-non">Verifikasi SPK</span>
+                            </a>
+                        </li>
+                        @endif
+
                         @if(in_array($userRoleNorm, ['finance', 'keuangan']))
                         <!-- Finance Specialized View -->
                         <li class="{{ request()->routeIs('payment.*') ? 'active mm-active' : '' }}">

@@ -17,10 +17,19 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProjectController extends Controller
 {
-    // Menampilkan daftar seluruh proyek (untuk Supervisor & Director)
+    // Menampilkan daftar proyek (Supervisor & Director lihat semua; Staff lihat proyek yang ditugaskan)
     public function index()
     {
-        $projects = Project::with(['customer', 'endUser', 'po', 'staff'])->latest()->paginate(10);
+        $user = Auth::user();
+        $query = Project::with(['customer', 'endUser', 'po', 'staff'])->latest();
+
+        if ($user && $user->hasRole('Staff') && ! $user->hasRole('Supervisor', 'Director', 'Finance', 'Logistics')) {
+            $query->whereHas('staff', function ($q) use ($user) {
+                $q->where('users.id', $user->id);
+            });
+        }
+
+        $projects = $query->paginate(10);
         return view('projects.index', compact('projects'));
     }
 
@@ -59,7 +68,9 @@ class ProjectController extends Controller
             'nilai_pekerjaan'         => 'required|numeric|min:0',
             // Penugasan & Alat
             'staffs'                  => 'required|array|min:1',
+            'staffs.*'                => 'integer|exists:users,id',
             'equipments'              => 'required|array|min:1',
+            'equipments.*'            => 'integer|exists:test_equipments,id',
         ], [
             'equipments.required' => 'Minimal pilih 1 alat uji yang digunakan untuk proyek ini.',
             'equipments.min'      => 'Minimal pilih 1 alat uji yang digunakan untuk proyek ini.',
@@ -67,21 +78,27 @@ class ProjectController extends Controller
 
         // 2. VALIDASI KALIBRASI & BENTROK JADWAL ALAT UJI
         if ($request->has('equipments') && is_array($request->equipments)) {
+            $today = Carbon::today();
+
             foreach ($request->equipments as $eqId) {
                 $equipment = TestEquipment::find($eqId);
+                if (! $equipment) {
+                    return back()->withInput()->with('error', 'Alat uji yang dipilih tidak ditemukan.');
+                }
 
-                // Cek Kalibrasi
-                if ($equipment->calibration_expiry && Carbon::parse($equipment->calibration_expiry)->isPast()) {
+                // Cek Kalibrasi (kedaluwarsa jika tanggal kalibrasi sudah lewat dari hari ini)
+                if ($equipment->calibration_expiry && Carbon::parse($equipment->calibration_expiry)->startOfDay()->lt($today)) {
                     return back()->withInput()->with('error', "Alat uji {$equipment->name} (SN: {$equipment->serial_number}) tidak dapat dipilih karena masa berlaku kalibrasinya sudah kedaluwarsa.");
                 }
 
-                // Cek Bentrok Jadwal dengan Proyek lain yang aktif
-                $isConflict = Project::whereHas('equipments', function($q) use ($eqId) {
-                    $q->where('test_equipments.id', $eqId);
-                })->where(function($query) use ($request) {
-                    $query->whereBetween('tgl_mulai', [$request->tgl_mulai, $request->tgl_selesai])
-                          ->orWhereBetween('tgl_selesai', [$request->tgl_mulai, $request->tgl_selesai]);
-                })->exists();
+                // Cek Bentrok Jadwal dengan Proyek lain yang masih aktif (overlap dua rentang tanggal)
+                $isConflict = Project::where('status_pekerjaan', '!=', 'Completed')
+                    ->whereHas('equipments', function ($q) use ($eqId) {
+                        $q->where('test_equipments.id', $eqId);
+                    })
+                    ->whereDate('tgl_mulai', '<=', $request->tgl_selesai)
+                    ->whereDate('tgl_selesai', '>=', $request->tgl_mulai)
+                    ->exists();
 
                 if ($isConflict) {
                     return back()->withInput()->with('error', "Alat uji {$equipment->name} sedang terjadwal pada rentang tanggal proyek lain yang bersinggungan.");
@@ -138,22 +155,31 @@ class ProjectController extends Controller
     // Menampilkan detail proyek
     public function show(Project $project)
     {
+        $user = Auth::user();
+        if ($user && $user->hasRole('Staff') && ! $user->hasRole('Supervisor', 'Director', 'Finance', 'Logistics')) {
+            abort_unless(
+                $project->staff()->where('users.id', $user->id)->exists(),
+                403,
+                'Anda tidak ditugaskan pada proyek ini.'
+            );
+        }
+
         $project->load(['customer', 'endUser', 'pic', 'po', 'staff', 'equipments', 'spks', 'finalReports']);
         return view('projects.show', compact('project'));
     }
 
-    // Halaman Verifikasi Pembayaran (khusus Finance)
+    // Halaman Verifikasi Pembayaran (Supervisor & Finance)
     public function paymentIndex()
     {
-        abort_unless(Auth::user()->role === 'Finance', 403, 'Akses ditolak.');
+        abort_unless(Auth::user()->hasRole('Supervisor', 'Finance'), 403, 'Akses ditolak.');
         $projects = Project::with(['customer', 'po'])->latest()->paginate(15);
         return view('projects.payment_index', compact('projects'));
     }
 
-    // Memperbarui status pembayaran oleh Finance (Waiting Payment <-> Paid)
+    // Memperbarui status pembayaran (Supervisor / Finance: Waiting Payment <-> Paid)
     public function updatePaymentStatus(Request $request, Project $project)
     {
-        abort_unless(Auth::user()->role === 'Finance', 403, 'Akses ditolak. Hanya Finance yang dapat mengubah status pembayaran.');
+        abort_unless(Auth::user()->hasRole('Supervisor', 'Finance'), 403, 'Akses ditolak. Hanya Supervisor atau Finance yang dapat mengubah status pembayaran.');
 
         $request->validate([
             'status_pembayaran' => 'required|in:Waiting Payment,Paid'
